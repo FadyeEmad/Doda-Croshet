@@ -187,6 +187,14 @@ function init() {
     setupEventListeners();
     loadCart();
 
+    window.addEventListener('resize', () => {
+        if (!window.matchMedia('(max-width: 1200px)').matches) {
+            document.body.style.overflow = '';
+            if (cartSidebar) cartSidebar.classList.remove('active');
+            if (cartOverlay) cartOverlay.classList.remove('active');
+        }
+    });
+
     // Smooth Navbar scroll effect
     window.addEventListener('scroll', () => {
         if (window.scrollY > 50) {
@@ -572,9 +580,21 @@ function setupEventListeners() {
     if (imgModalOverlay) imgModalOverlay.addEventListener('click', closeImageModal);
     if (imgModalClose) imgModalClose.addEventListener('click', closeImageModal);
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
+        if (e.key !== 'Escape') return;
+        if (imgModal && imgModal.classList.contains('active')) {
             closeImageModal();
-            closeAllColorPickers();
+            return;
+        }
+        closeAllColorPickers();
+        if (
+            window.matchMedia('(max-width: 1200px)').matches &&
+            cartSidebar &&
+            cartOverlay &&
+            cartSidebar.classList.contains('active')
+        ) {
+            cartSidebar.classList.remove('active');
+            cartOverlay.classList.remove('active');
+            document.body.style.overflow = '';
         }
     });
 
@@ -674,6 +694,8 @@ function toggleCart() {
     if (isNarrow) {
         cartSidebar.classList.toggle('active');
         cartOverlay.classList.toggle('active');
+        const open = cartSidebar.classList.contains('active');
+        document.body.style.overflow = open ? 'hidden' : '';
         return;
     }
     // Desktop: collapse the cart column to match dashboard UI
