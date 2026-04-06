@@ -641,7 +641,7 @@ function setupEventListeners() {
 
     if (whatsappContact) {
         whatsappContact.addEventListener('click', () => {
-            const phoneNumber = "201000000000";
+            const phoneNumber = "201018861417";
             const msg = document.documentElement.lang === 'en'
                 ? "Hi Doda Croshet, I want to ask about a custom order."
                 : "مرحباً Doda Croshet، عايزة أسأل عن طلب تصميم خاص.";
@@ -822,7 +822,7 @@ function handleCheckout() {
     message += "الرجاء إخباري بخطوات الدفع والتوصيل. شكراً لك.";
 
     // Replace YOUR_PHONE_NUMBER_HERE with the actual WhatsApp number including country code e.g. 201xxxxxxxxx
-    const phoneNumber = "201000000000";
+    const phoneNumber = "201018861417";
     const encodedMessage = encodeURIComponent(message);
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
 
