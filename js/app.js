@@ -329,8 +329,7 @@ const I18N = {
 };
 
 function initLanguage() {
-    const saved = localStorage.getItem('doda_lang') || 'ar';
-    applyLanguage(saved === 'en' ? 'en' : 'ar');
+    applyLanguage('en');
 }
 
 function applyLanguage(lang) {
@@ -638,23 +637,7 @@ function setupEventListeners() {
     cartOverlay.addEventListener('click', toggleCart);
     checkoutBtn.addEventListener('click', handleCheckout);
 
-    if (langToggle) {
-        langToggle.addEventListener('click', () => {
-            const current = (localStorage.getItem('doda_lang') || 'ar') === 'en' ? 'en' : 'ar';
-            applyLanguage(current === 'en' ? 'ar' : 'en');
-            // Re-render category chips to update "All" label
-            renderCategoryFilters();
-            filterProducts(activeCategory);
-                });
-    }
-    if (langToggleTop) {
-        langToggleTop.addEventListener('click', () => {
-            const current = (localStorage.getItem('doda_lang') || 'ar') === 'en' ? 'en' : 'ar';
-            applyLanguage(current === 'en' ? 'ar' : 'en');
-            renderCategoryFilters();
-            filterProducts(activeCategory);
-                });
-    }
+
 
     if (whatsappContact) {
         whatsappContact.addEventListener('click', () => {
