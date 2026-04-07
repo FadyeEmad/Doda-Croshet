@@ -48,6 +48,11 @@ body {
 .hero--split {
     padding: 120px 0 40px;
 }
+@media (max-width: 1100px) {
+    .hero--split {
+        padding-top: 150px;
+    }
+}
 
 .hero-grid {
     display: grid;
@@ -990,7 +995,8 @@ a {
 
 /* Hero Section */
 .hero {
-    height: 90vh;
+    min-height: 100vh;
+    height: auto;
     /* Beautiful linear gradient to mock the earthy vibe until an image is loaded */
     background: linear-gradient(135deg, #EAD7D1 0%, #FAF5F4 100%);
     position: relative;
@@ -2259,4 +2265,182 @@ a {
 .page-btn:disabled {
     opacity: 0.35;
     cursor: not-allowed;
+}
+
+/* ============================================================
+   PRODUCT IMAGE SLIDER
+   ============================================================ */
+.product-slider {
+    position: relative;
+    overflow: hidden;
+}
+
+.slides-track {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.slide.active {
+    opacity: 1;
+    pointer-events: auto;
+    position: relative;
+}
+
+.slide img {
+    width: 100%;
+    height: 380px;
+    object-fit: cover;
+}
+
+.slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.88);
+    border: none;
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    font-size: 0.8rem;
+    color: var(--primary-color, #c8956c);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    transition: background 0.2s;
+}
+
+.slider-btn:hover { background: #fff; }
+.slider-prev { left: 8px; }
+.slider-next { right: 8px; }
+
+.slider-dots {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+    z-index: 10;
+}
+
+.slider-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.55);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    border: 1.5px solid rgba(255,255,255,0.7);
+}
+
+.slider-dot.active {
+    background: #fff;
+    transform: scale(1.25);
+}
+
+/* ============================================================
+   COLORS BADGE (replaces color picker)
+   ============================================================ */
+.product-colors-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--accent-color, #8b6b4a);
+    background: rgba(200,149,108,0.1);
+    border: 1px solid rgba(200,149,108,0.2);
+    border-radius: 50px;
+    padding: 5px 12px;
+    margin-bottom: 14px;
+}
+
+.product-colors-badge i {
+    font-size: 0.9rem;
+}
+
+/* ============================================================
+   PAGINATION
+   ============================================================ */
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    padding: 2rem 0 1rem;
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.page-btn {
+    min-width: 38px;
+    height: 38px;
+    padding: 0 0.6rem;
+    border: 1.5px solid var(--border-color, #e0e0e0);
+    border-radius: 8px;
+    background: var(--card-bg, #fff);
+    color: var(--text-main, #333);
+    font-size: 0.9rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.page-btn:hover:not(:disabled) {
+    background: var(--primary-color, #c8956c);
+    color: #fff;
+    border-color: var(--primary-color, #c8956c);
+}
+
+.page-btn.active {
+    background: var(--primary-color, #c8956c);
+    color: #fff;
+    border-color: var(--primary-color, #c8956c);
+    font-weight: 600;
+}
+
+.page-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+/* Fix dashboard grid (no sidebar) */
+.dashboard {
+    grid-template-columns: 1fr 360px !important;
+}
+
+.dashboard.cart-collapsed {
+    grid-template-columns: 1fr !important;
+}
+
+@media (max-width: 1200px) {
+    .dashboard {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* Product grid inside dashboard */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 22px;
 }
