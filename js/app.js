@@ -758,10 +758,21 @@ function closeImageModal() {
 function toggleCart() {
     const isNarrow = window.matchMedia && window.matchMedia('(max-width: 1200px)').matches;
     if (isNarrow) {
-        cartSidebar.classList.toggle('active');
-        cartOverlay.classList.toggle('active');
+        const isOpen = cartSidebar.classList.contains('active');
+        if (isOpen) {
+            // Close cart
+            cartSidebar.classList.remove('active');
+            cartOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        } else {
+            // Open cart
+            cartSidebar.classList.add('active');
+            cartOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
         return;
     }
+    // Desktop: toggle grid column
     if (!dashboardEl) return;
     dashboardEl.classList.toggle('cart-collapsed');
 }
@@ -811,7 +822,7 @@ function updateCartUI() {
             el.className = 'cart-item';
             const cat = translateCategoryLabel(item.categoryLabelAr, document.documentElement.lang);
             el.innerHTML = `
-                <img src="${item.image}" alt="${item.id}" class="cart-item-img"
+                <img src="${encodeURI(item.image)}" alt="${item.id}" class="cart-item-img"
                     onerror="this.src='Photos/Hero/Cover.png'">
                 <div class="cart-item-info">
                     <div class="cart-item-sku">${cat} • Code: ${item.id}</div>
