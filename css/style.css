@@ -957,6 +957,38 @@ a {
     right: auto;
 }
 
+.nav-icons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.lang-toggle-btn {
+    border: 1px solid rgba(74, 59, 50, 0.15);
+    background: #fff;
+    color: var(--primary-color);
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 0.5px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(74, 59, 50, 0.08);
+    transition: var(--transition);
+}
+
+.lang-toggle-btn:hover {
+    background: var(--primary-color);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
 .cart-icon {
     position: relative;
     font-size: 1.6rem;
@@ -2121,6 +2153,12 @@ a {
         width: 40px;
         height: 40px;
         font-size: 1.3rem;
+    }
+
+    .lang-toggle-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 0.6rem;
     }
 
     .cart-count {
