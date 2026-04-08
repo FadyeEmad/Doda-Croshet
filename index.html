@@ -23,14 +23,13 @@
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <div class="logo">
-                <span class="logo-text">Doda Croshet</span>
-                <span class="logo-subtext">Handmade Croshet</span>
+                <span class="logo-text">Doda Crochet</span>
+                <span class="logo-subtext">Handmade Crochet</span>
             </div>
 
             <div class="nav-links">
                 <a href="#home" class="active" data-i18n="nav.home">الرئيسية</a>
                 <a href="#shop" data-i18n="nav.shop">المتجر</a>
-                <a href="#about" data-i18n="nav.about">عن براند Doda</a>
                 <a href="#custom" data-i18n="nav.custom">طلبات خاصة</a>
                 <a href="#reviews" data-i18n="nav.reviews">آراء العملاء</a>
                 <a href="#contact" data-i18n="nav.contact">تواصل</a>
@@ -57,7 +56,8 @@
                     <span class="badge badge--soft" data-i18n="hero.badge.exp">خبرة +7 سنوات</span>
                 </div>
                 <h1 class="hero-title" data-i18n="hero.title">قطع كروشيه هاند ميد بتفاصيل مصنوعة بحب</h1>
-                <p class="hero-subtitle" data-i18n="hero.desc">نقدّم منتجات كروشيه هاند ميد بجودة عالية وتشطيب دقيق، بخبرة تمتد لأكثر من 7 سنوات في تنفيذ قطع مميزة تضيف لمسة خاصة لكل مناسبة ولكل ذوق.</p>
+                <p class="hero-subtitle" data-i18n="hero.desc">نقدّم منتجات كروشيه هاند ميد بجودة عالية وتشطيب دقيق،
+                    بخبرة تمتد لأكثر من 7 سنوات في تنفيذ قطع مميزة تضيف لمسة خاصة لكل مناسبة ولكل ذوق.</p>
                 <div class="hero-cta">
                     <a href="#shop" class="btn btn-primary" data-i18n="hero.cta.shop">تسوق الآن</a>
                     <a href="#custom" class="btn btn-outline" data-i18n="hero.cta.custom">اطلب تصميمك الخاص</a>
@@ -100,7 +100,8 @@
                 <div class="dash-topbar">
                     <div class="dash-search">
                         <i class="fa-solid fa-magnifying-glass"></i>
-                        <input id="product-search" type="search" placeholder="ابحثي بالكود أو القسم..." autocomplete="off" data-i18n-placeholder="search.placeholder">
+                        <input id="product-search" type="search" placeholder="ابحثي بالكود أو القسم..."
+                            autocomplete="off" data-i18n-placeholder="search.placeholder">
                     </div>
                     <div class="dash-actions">
                         <button class="dash-icon-btn" type="button" id="open-cart-btn" aria-label="فتح السلة">
@@ -136,37 +137,39 @@
                     </div>
                 </section>
             </main>
-
-            <!-- Cart Panel -->
-            <aside class="dash-cart" aria-label="السلة">
-                <div class="cart-header">
-                    <h3 data-i18n="cart.title">سلة التسوق</h3>
-                    <button class="close-cart" id="close-cart" type="button" aria-label="إغلاق">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                </div>
-                <div class="cart-items" id="cart-items">
-                    <!-- Injected via JS -->
-                </div>
-                <div class="cart-footer">
-                    <div class="cart-total">
-                        <span data-i18n="cart.total">الإجمالي:</span>
-                        <span id="cart-total-price">0 ج.م</span>
-                    </div>
-                    <button class="btn btn-primary w-100" id="checkout-btn">
-                        <i class="fa-brands fa-whatsapp"></i> <span data-i18n="cart.checkout">إتمام الطلب عبر الواتساب</span>
-                    </button>
-                </div>
-            </aside>
         </div>
     </section>
+
+    <!-- Cart Panel (Global - accessible from anywhere) -->
+    <aside class="dash-cart" id="cart-panel" aria-label="السلة">
+        <div class="cart-header">
+            <h3 data-i18n="cart.title">سلة التسوق</h3>
+            <button class="close-cart" id="close-cart" type="button" aria-label="إغلاق">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Injected via JS -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span data-i18n="cart.total">الإجمالي:</span>
+                <span id="cart-total-price">0 ج.م</span>
+            </div>
+            <button class="btn btn-primary w-100" id="checkout-btn">
+                <i class="fa-brands fa-whatsapp"></i> <span data-i18n="cart.checkout">إتمام الطلب عبر
+                    الواتساب</span>
+            </button>
+        </div>
+    </aside>
 
     <!-- Custom Orders -->
     <section class="section custom" id="custom">
         <div class="container custom-inner">
             <div class="custom-copy">
                 <h2 data-i18n="custom.title">اطلب تصميمك الخاص</h2>
-                <p data-i18n="custom.desc">إذا كان لديك فكرة خاصة، لون معين، أو هدية مميزة في بالك، يمكننا تنفيذ قطعة كروشيه مخصصة تناسب ذوقك أو مناسبتك.</p>
+                <p data-i18n="custom.desc">إذا كان لديك فكرة خاصة، لون معين، أو هدية مميزة في بالك، يمكننا تنفيذ قطعة
+                    كروشيه مخصصة تناسب ذوقك أو مناسبتك.</p>
             </div>
             <div class="custom-cta">
                 <a class="btn btn-primary" href="#contact" data-i18n="custom.cta">اطلب الآن</a>
@@ -203,12 +206,16 @@
         <div class="container community-inner">
             <div class="community-copy">
                 <h2 data-i18n="community.title">كونوا جزءًا من مجتمعنا</h2>
-                <p data-i18n="community.desc">تابعوا أحدث المنتجات والطلبات الجديدة وآراء العملاء من خلال صفحاتنا ومجتمعنا على السوشيال ميديا.</p>
+                <p data-i18n="community.desc">تابعوا أحدث المنتجات والطلبات الجديدة وآراء العملاء من خلال صفحاتنا
+                    ومجتمعنا على السوشيال ميديا.</p>
             </div>
             <div class="community-actions">
-                <a class="btn btn-outline" href="https://www.facebook.com/profile.php?id=61587750853067" target="_blank" rel="noopener" data-i18n="community.fb">تابعنا على فيسبوك</a>
-                <a class="btn btn-outline" href="https://www.facebook.com/share/p/1B4ngMg1qz/" target="_blank" rel="noopener" data-i18n="community.group">انضم إلى الجروب</a>
-                <button class="btn btn-primary" type="button" id="whatsapp-contact" data-i18n="community.wa">راسلنا على واتساب</button>
+                <a class="btn btn-outline" href="https://www.facebook.com/profile.php?id=61587750853067" target="_blank"
+                    rel="noopener" data-i18n="community.fb">تابعنا على فيسبوك</a>
+                <a class="btn btn-outline" href="https://www.facebook.com/share/p/1B4ngMg1qz/" target="_blank"
+                    rel="noopener" data-i18n="community.group">انضم إلى الجروب</a>
+                <button class="btn btn-primary" type="button" id="whatsapp-contact" data-i18n="community.wa">راسلنا على
+                    واتساب</button>
             </div>
         </div>
     </section>
@@ -246,27 +253,15 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-brand">
-                    <h3 class="logo-text">Doda Croshet</h3>
-                    <p data-i18n="footer.experience">عندنا خبرة فوق الـ 7 سنين في مجال الهاند ميد بالكروشيه.</p>
-                    <div class="footer-links">
-                        <a href="https://www.facebook.com/share/p/1B4ngMg1qz/" target="_blank" rel="noopener" class="footer-link">
-                            <i class="fa-brands fa-facebook"></i>
-                            <span data-i18n="footer.group">لينك جروب الفيسبوك</span>
-                        </a>
-                        <a href="https://www.facebook.com/profile.php?id=61587750853067" target="_blank" rel="noopener" class="footer-link">
-                            <i class="fa-brands fa-facebook"></i>
-                            <span data-i18n="footer.page">لينك صفحة الفيسبوك</span>
-                        </a>
-                    </div>
+                    <h3 class="logo-text">Doda Crochet</h3>
                 </div>
                 <div class="footer-social">
-                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="https://www.facebook.com/share/p/1B4ngMg1qz/"><i class="fa-brands fa-facebook-f"></i></a>
                     <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 Doda Croshet. جميع الحقوق محفوظة.</p>
+                <p>&copy; 2026 Doda Crochet. جميع الحقوق محفوظة.</p>
             </div>
         </div>
     </footer>

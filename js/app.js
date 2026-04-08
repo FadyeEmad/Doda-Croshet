@@ -288,7 +288,7 @@ const catNext           = document.getElementById('cat-next');
 const openCartBtn       = document.getElementById('open-cart-btn');
 const cartBtn           = document.getElementById('cart-btn');
 const closeCartBtn      = document.getElementById('close-cart');
-const cartSidebar       = document.querySelector('.dash-cart');
+const cartSidebar       = document.getElementById('cart-panel');
 const cartOverlay       = document.getElementById('cart-overlay');
 const cartItemsContainer= document.getElementById('cart-items');
 const cartCount         = document.getElementById('cart-count');
@@ -756,25 +756,16 @@ function closeImageModal() {
 // CART
 // ============================================================
 function toggleCart() {
-    const isNarrow = window.matchMedia && window.matchMedia('(max-width: 1200px)').matches;
-    if (isNarrow) {
-        const isOpen = cartSidebar.classList.contains('active');
-        if (isOpen) {
-            // Close cart
-            cartSidebar.classList.remove('active');
-            cartOverlay.classList.remove('active');
-            document.body.style.overflow = '';
-        } else {
-            // Open cart
-            cartSidebar.classList.add('active');
-            cartOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-        return;
+    const isOpen = cartSidebar.classList.contains('active');
+    if (isOpen) {
+        cartSidebar.classList.remove('active');
+        cartOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+    } else {
+        cartSidebar.classList.add('active');
+        cartOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
     }
-    // Desktop: toggle grid column
-    if (!dashboardEl) return;
-    dashboardEl.classList.toggle('cart-collapsed');
 }
 
 window.addToCart = function(productId) {

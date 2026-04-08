@@ -625,23 +625,25 @@ body {
     }
 }
 
+/* Cart — always a fixed slide-in panel */
 .dash-cart {
-    position: sticky;
-    top: 110px;
-    height: calc(100vh - 140px);
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: min(400px, 90%);
+    height: 100%;
+    z-index: 1500;
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    background-color: var(--bg-color);
+    box-shadow: -10px 0 40px rgba(0, 0, 0, 0.15);
+    transition: right 0.45s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border-radius: 22px 0 0 22px;
 }
 
-/* Desktop collapse — only on wide screens */
-@media (min-width: 1201px) {
-    .dashboard.cart-collapsed {
-        grid-template-columns: 1fr;
-    }
-    .dashboard.cart-collapsed .dash-cart {
-        display: none;
-    }
+.dash-cart.active {
+    right: 0;
 }
 
 .dash-cart .cart-items {
