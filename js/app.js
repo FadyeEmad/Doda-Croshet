@@ -962,15 +962,26 @@ function toggleCart() {
 window.addToCart = function (productId) {
     const product = productsData.find(p => p.id === productId);
     if (!product) return;
+    
+    const wasEmpty = cart.length === 0;
+    
     const existing = cart.find(item => item.id === productId);
     if (existing) {
         existing.quantity += 1;
     } else {
         cart.push({ ...product, quantity: 1 });
     }
+    
     saveCart();
     updateCartUI();
     showToast();
+
+    // Automatically open the cart if this is the first item added
+    if (wasEmpty) {
+        if (cartSidebar && !cartSidebar.classList.contains('active')) {
+            toggleCart();
+        }
+    }
 };
 
 window.removeFromCart = function (productId) {
