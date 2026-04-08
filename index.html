@@ -184,22 +184,44 @@
                 <h2 data-i18n="reviews.title">آراء عملائنا</h2>
                 <div class="divider"></div>
             </div>
-            <div class="reviews-grid">
-                <div class="review-card">
-                    <div class="stars">★★★★★</div>
-                    <p data-i18n="reviews.r1">"الشغل طلع أجمل بكتير من الصور، والتقفيل ممتاز جدًا."</p>
-                </div>
-                <div class="review-card">
-                    <div class="stars">★★★★★</div>
-                    <p data-i18n="reviews.r2">"أول مرة أطلب حاجة هاند ميد بالجودة دي فعلًا."</p>
-                </div>
-                <div class="review-card">
-                    <div class="stars">★★★★★</div>
-                    <p data-i18n="reviews.r3">"التفاصيل كانت دقيقة جدًا، والمنتج طلع شيك جدًا كهدية."</p>
-                </div>
+            <div class="reviews-button-container" style="text-align: center; margin-top: 20px;">
+                <button class="btn btn-primary" id="open-feedbacks-btn" type="button" data-i18n="reviews.btn">See Feedbacks</button>
             </div>
         </div>
     </section>
+
+    <!-- Feedbacks Panel (Global) -->
+    <div class="cart-overlay" id="feedbacks-overlay"></div>
+    <aside class="dash-cart feedbacks-panel" id="feedbacks-panel" aria-label="الفيدباكس">
+        <div class="cart-header">
+            <h3 data-i18n="reviews.title">آراء عملائنا</h3>
+            <button class="close-cart" id="close-feedbacks" type="button" aria-label="إغلاق">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="cart-items" style="padding: 15px;">
+            <div class="reviews-gallery feedbacks-panel-gallery">
+                <div class="review-gallery-item">
+                    <img src="Photos/Feedbacks/WhatsApp%20Image%202026-04-08%20at%202.34.56%20PM%20(1).jpeg" alt="Feedback">
+                </div>
+                <div class="review-gallery-item">
+                    <img src="Photos/Feedbacks/WhatsApp%20Image%202026-04-08%20at%202.34.56%20PM%20(2).jpeg" alt="Feedback">
+                </div>
+                <div class="review-gallery-item">
+                    <img src="Photos/Feedbacks/WhatsApp%20Image%202026-04-08%20at%202.34.56%20PM%20(3).jpeg" alt="Feedback">
+                </div>
+                <div class="review-gallery-item">
+                    <img src="Photos/Feedbacks/WhatsApp%20Image%202026-04-08%20at%202.34.56%20PM%20(4).jpeg" alt="Feedback">
+                </div>
+                <div class="review-gallery-item">
+                    <img src="Photos/Feedbacks/WhatsApp%20Image%202026-04-08%20at%202.34.56%20PM.jpeg" alt="Feedback">
+                </div>
+                <div class="review-gallery-item">
+                    <img src="Photos/Feedbacks/87861080_2625655381001858_2074364544204931072_n.jpg" alt="Feedback">
+                </div>
+            </div>
+        </div>
+    </aside>
 
     <!-- Community -->
     <section class="section community" id="contact">

@@ -151,7 +151,7 @@ const PHOTO_PATHS = [
     "Photos/ميداليلات/652557811_4438173489750029_1770083689310507587_n.jpg",
     "Photos/ميداليلات/653207027_4438173259750052_8877029077248299643_n.jpg",
     "Photos/ميداليلات/653398075_4438173453083366_9142753815196616935_n.jpg",
-    "Photos/ميداليلات/653711390_4438173726416672_6028007831131307525_n.jpg",
+    "Photos/ميداليلات/653711390_4438173726416672_6028037831131307525_n.jpg",
     "Photos/ميداليلات/653758100_4438173129750065_2487507858521464778_n.jpg",
     "Photos/ميداليلات/653788519_4438173536416691_5633716620294379073_n.jpg",
     "Photos/ميداليلات/653931324_4438173383083373_6168346555039859274_n.jpg",
@@ -162,6 +162,47 @@ const PHOTO_PATHS = [
     "Photos/ميداليلات/654822211_4438173613083350_826444075144846873_n.jpg",
     "Photos/ميداليلات/654998256_4438173759750002_2456779306107906606_n.jpg",
 ];
+
+const ADDED_PHOTOS = [
+    // شنط
+    "Photos/شنط/490194052_4103109283256453_8436217218216002380_n.jpg",
+    "Photos/شنط/490564003_4103109519923096_4101607805860058467_n.jpg",
+    "Photos/شنط/491932330_4103109506589764_6138234791561068053_n.jpg",
+    // مفروشات
+    "Photos/مفروشات/WhatsApp Image 2026-04-07 at 10.04.47 PM (1).jpeg",
+    "Photos/مفروشات/WhatsApp Image 2026-04-07 at 10.04.47 PM.jpeg",
+    // ملابس اطفال
+    "Photos/ملابس/اطفال/475417196_4033906246843424_7084565089896524884_n.jpg",
+    "Photos/ملابس/اطفال/475814015_4033906000176782_2257835537475386288_n.jpg",
+    "Photos/ملابس/اطفال/475997521_4033906220176760_44238683594391960_n.jpg",
+    "Photos/ملابس/اطفال/476117707_4034720136762035_9116981824281589739_n.jpg",
+    "Photos/ملابس/اطفال/489919890_4096469457253769_6848274167114165117_n.jpg",
+    // ايس كاب
+    "Photos/ملابس/ايس كاب/475652633_4033905896843459_8469931355251970769_n.jpg",
+    "Photos/ملابس/ايس كاب/475815997_4033905880176794_3245505888028580850_n.jpg",
+    "Photos/ملابس/ايس كاب/475979580_4033905970176785_4852438076750019026_n.jpg",
+    // جلافز
+    "Photos/ملابس/جلافز/475748932_4033905850176797_2610332611713718560_n.jpg",
+    // سكارفات
+    "Photos/ملابس/سكارفات/475642032_4033906173510098_74989429944532232_n.jpg",
+    "Photos/ملابس/سكارفات/475760650_4037033319864050_8952288444289216331_n.jpg",
+    "Photos/ملابس/سكارفات/475764757_4037033506530698_6160770485531502567_n.jpg",
+    "Photos/ملابس/سكارفات/475767458_4033906273510088_5577099026230334415_n.jpg",
+    "Photos/ملابس/سكارفات/475987556_4037033469864035_4328593615130342742_n.jpg",
+    "Photos/ملابس/سكارفات/476147349_4037033373197378_7615967117580155181_n.jpg",
+    "Photos/ملابس/سكارفات/480249487_4044896139077768_1156351419709322229_n.jpg",
+    // نساء
+    "Photos/ملابس/نساء/475364173_4033906123510103_3985682373706261663_n.jpg",
+    "Photos/ملابس/نساء/475542203_4033906226843426_1177008894799840488_n.jpg",
+    "Photos/ملابس/نساء/475588998_4033905843510131_6790148409352308616_n.jpg",
+    "Photos/ملابس/نساء/475832005_4034235373477178_7056074391097421462_n.jpg",
+    "Photos/ملابس/نساء/481253569_4050810265153022_6334236993345367307_n.jpg"
+];
+
+// Merge all existing + added photos, avoiding duplicates
+ADDED_PHOTOS.forEach(p => {
+    if (!PHOTO_PATHS.includes(p)) PHOTO_PATHS.push(p);
+});
 
 // ============================================================
 // HELPERS
@@ -305,6 +346,12 @@ const langPill          = document.getElementById('lang-pill');
 const langToggleTop     = document.getElementById('lang-toggle-top');
 const langPillTop       = document.getElementById('lang-pill-top');
 const whatsappContact   = document.getElementById('whatsapp-contact');
+
+// Feedbacks UI elements
+const openFeedbacksBtn  = document.getElementById('open-feedbacks-btn');
+const closeFeedbacksBtn = document.getElementById('close-feedbacks');
+const feedbacksPanel    = document.getElementById('feedbacks-panel');
+const feedbacksOverlay  = document.getElementById('feedbacks-overlay');
 
 // ============================================================
 // I18N
@@ -755,6 +802,18 @@ function setupEventListeners() {
             window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(msg)}`, '_blank');
         });
     }
+
+    // Feedbacks Events
+    if (openFeedbacksBtn) openFeedbacksBtn.addEventListener('click', toggleFeedbacks);
+    if (closeFeedbacksBtn) closeFeedbacksBtn.addEventListener('click', toggleFeedbacks);
+    if (feedbacksOverlay) feedbacksOverlay.addEventListener('click', toggleFeedbacks);
+}
+
+function toggleFeedbacks() {
+    if (!feedbacksPanel || !feedbacksOverlay) return;
+    feedbacksPanel.classList.toggle('active');
+    feedbacksOverlay.classList.toggle('active');
+    document.body.style.overflow = feedbacksPanel.classList.contains('active') ? 'hidden' : '';
 }
 
 // ============================================================
