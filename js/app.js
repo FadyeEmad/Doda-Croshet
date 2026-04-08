@@ -902,7 +902,7 @@ function setupEventListeners() {
 
     if (whatsappContact) {
         whatsappContact.addEventListener('click', () => {
-            const phoneNumber = "201000000000";
+            const phoneNumber = "201025329855";
             const msg = document.documentElement.lang === 'en'
                 ? "Hi Doda Croshet, I want to ask about a custom order."
                 : "مرحباً Doda Croshet، عايزة أسأل عن طلب تصميم خاص.";
@@ -1072,7 +1072,7 @@ function handleCheckout() {
     message += total ? `\nTotal: ${total} EGP\n` : `\nTotal: To be confirmed\n`;
     message += "\nPlease let me know the payment and delivery details. Thank you!";
 
-    const phoneNumber = "201000000000";
+    const phoneNumber = "201025329855";
     window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
 }
 
