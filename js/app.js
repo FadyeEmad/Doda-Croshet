@@ -205,6 +205,98 @@ ADDED_PHOTOS.forEach(p => {
 });
 
 // ============================================================
+// CUSTOM PRICES
+// ============================================================
+// حط كود المنتج وسعره هنا، والموقع هياخده بدال السعر العشوائي أو الثابت
+const CUSTOM_PRICES = {
+    "BG-002": 600,
+    "BG-001": 700,
+    "BG-007": 650,
+    "BG-008": 700,
+    "BG-009": 600,
+    "BG-010": 750,
+    "BG-011": 600,
+    "BG-012": 600,
+    "BG-013": 350,
+    "BG-014": 600,
+    "BG-015": 600,
+    "BG-016": 600,
+    "BG-017": 600,
+    "BG-019": 350,
+    "BG-020": 700,
+    "BG-021": 350,
+    "BG-022": 600,
+    "BG-024": 650,
+    "BG-025": 650,
+    "BG-026": 700,
+    "BG-027": 600,
+    "BG-029": 700,
+    "BG-030": 600,
+    "BG-031": 650,
+    "BG-032": 600,
+    "BG-033": 350,
+    "BG-034": 600,
+    "BG-035": 650,
+    "BG-036": 700,
+    "BG-037": 350,
+    "BG-038": 700,
+    "BG-039": 650,
+    "WM-001": 1000,
+    "WM-002": 800,
+    "WM-003": 1500,
+    "WM-004": 1800,
+    "WM-005": 1300,
+    "WM-006": 800,
+    "WM-007": 800,
+    "WM-008": 1200,
+    "WM-009": 950,
+    "WM-010": 1000,
+    "WM-011": 600,
+    "WM-012": 900,
+    "WM-013": 950,
+    "WM-014": 1300,
+    "WM-015": 1300,
+    "WM-016": 1300,
+    "WM-017": 1300,
+    "WM-018": 900,
+    "WM-019": 950,
+    "WM-020": 600,
+    "WM-021": 1300,
+    "WM-022": 1300,
+    "KY-001": 80,
+    "KY-002": 100,
+    "KY-003": 80,
+    "KY-004": 100,
+    "KY-005": 110,
+    "KY-006": 90,
+    "KY-007": 100,
+    "KY-008": 100,
+    "KY-009": 80,
+    "KY-010": 120,
+    "KY-011": 120,
+    "KY-012": 110,
+    "KY-013": 110,
+    "KY-014": 90,
+    "KY-015": 100,
+    "KY-016": 120,
+    "KY-017": 120,
+    "WC-001": 120,
+    "WC-002": 120,
+    "WC-003": 120,
+    "WC-004": 120,
+    "WC-005": 120,
+    "WC-006": 250,
+    "WC-007": 250,
+    "GL-001": 150,
+    "GL-002": 150,
+    "GL-003": 150,
+    "GL-004": 150,
+    "GL-005": 150,
+    "GL-006": 150,
+    "GL-007": 150,
+};
+
+// ============================================================
 // HELPERS
 // ============================================================
 function translateCategoryTokenArToEn(token) {
@@ -245,9 +337,11 @@ function priceForCategory(categoryAr, subcategoryAr, seedStr) {
     const seed = parseInt(hashString(seedStr), 16) >>> 0;
     const rand01 = (seed % 10000) / 10000;
     const between = (min, max) => Math.round(min + (max - min) * rand01);
+
+    // فقط الشنط اللي هيتحددلها سعر تلقائي
     if (categoryAr === 'شنط') return between(400, 700);
-    if (categoryAr === 'مفروشات') return between(350, 450);
-    if (categoryAr === 'ملابس' && subcategoryAr === 'اطفال') return between(100, 400);
+
+    // باقي الأقسام هترجع 0 (بمعنى يحدد عند الطلب)
     return 0;
 }
 
@@ -281,17 +375,30 @@ function buildProductsFromPhotos() {
         });
     });
 
-    const categoryOrder = Array.from(new Set(items.map(x => x.categoryPathAr)));
-    const categoryIndex = new Map(categoryOrder.map((c, i) => [c, i + 1]));
+    const PREFIX_MAP = {
+        'شنط': 'BG',
+        'ملابس / نساء': 'WM',
+        'ملابس / اطفال': 'KD',
+        'مفروشات': 'HM',
+        'ملابس / ايس كاب': 'WC',
+        'ملابس / سكارفات': 'SC',
+        'ملابس / جلافز': 'GL',
+        'ميداليلات': 'KY'
+    };
+
     const perCategoryCounters = new Map();
 
     const built = items.map(x => {
-        const catNo = categoryIndex.get(x.categoryPathAr) || 0;
         const current = (perCategoryCounters.get(x.categoryPathAr) || 0) + 1;
         perCategoryCounters.set(x.categoryPathAr, current);
 
-        const id = `DC-${String(catNo).padStart(2, '0')}-${String(current).padStart(3, '0')}`;
-        const price = priceForCategory(x.categoryAr, x.subcategoryAr, `${x.categoryPathAr}/${x.filename}`);
+        const prefix = PREFIX_MAP[x.categoryPathAr] || 'DC';
+        const id = `${prefix}-${String(current).padStart(3, '0')}`;
+
+        let price = priceForCategory(x.categoryAr, x.subcategoryAr, `${x.categoryPathAr}/${x.filename}`);
+        if (CUSTOM_PRICES[id] !== undefined) {
+            price = CUSTOM_PRICES[id];
+        }
 
         return {
             id,
@@ -302,8 +409,8 @@ function buildProductsFromPhotos() {
             images: x.images || null,
         };
     });
-    
-    const toRemove = ["DC-01-003", "DC-01-004", "DC-01-005", "DC-01-006", "DC-01-023", "DC-01-028", "DC-08-006"];
+
+    const toRemove = ["BG-003", "BG-004", "BG-005", "BG-006", "BG-018", "BG-023", "BG-028", "BG-037"];
     return built.filter(p => !toRemove.includes(p.id));
 }
 
@@ -320,38 +427,38 @@ let currentPage = 1;
 // ============================================================
 // DOM REFS
 // ============================================================
-const productsGrid      = document.getElementById('products-grid');
-const categoryFilters   = document.getElementById('category-filters');
-const dashboardEl       = document.getElementById('dashboard');
-const productSearch     = document.getElementById('product-search');
-const catPrev           = document.getElementById('cat-prev');
-const catNext           = document.getElementById('cat-next');
-const openCartBtn       = document.getElementById('open-cart-btn');
-const cartBtn           = document.getElementById('cart-btn');
-const closeCartBtn      = document.getElementById('close-cart');
-const cartSidebar       = document.getElementById('cart-panel');
-const cartOverlay       = document.getElementById('cart-overlay');
-const cartItemsContainer= document.getElementById('cart-items');
-const cartCount         = document.getElementById('cart-count');
-const cartTotalPrice    = document.getElementById('cart-total-price');
-const checkoutBtn       = document.getElementById('checkout-btn');
-const toast             = document.getElementById('toast');
-const navbar            = document.getElementById('navbar');
-const imgModal          = document.getElementById('img-modal');
-const imgModalOverlay   = document.getElementById('img-modal-overlay');
-const imgModalClose     = document.getElementById('img-modal-close');
-const imgModalImg       = document.getElementById('img-modal-img');
-const langToggle        = document.getElementById('lang-toggle');
-const langPill          = document.getElementById('lang-pill');
-const langToggleTop     = document.getElementById('lang-toggle-top');
-const langPillTop       = document.getElementById('lang-pill-top');
-const whatsappContact   = document.getElementById('whatsapp-contact');
+const productsGrid = document.getElementById('products-grid');
+const categoryFilters = document.getElementById('category-filters');
+const dashboardEl = document.getElementById('dashboard');
+const productSearch = document.getElementById('product-search');
+const catPrev = document.getElementById('cat-prev');
+const catNext = document.getElementById('cat-next');
+const openCartBtn = document.getElementById('open-cart-btn');
+const cartBtn = document.getElementById('cart-btn');
+const closeCartBtn = document.getElementById('close-cart');
+const cartSidebar = document.getElementById('cart-panel');
+const cartOverlay = document.getElementById('cart-overlay');
+const cartItemsContainer = document.getElementById('cart-items');
+const cartCount = document.getElementById('cart-count');
+const cartTotalPrice = document.getElementById('cart-total-price');
+const checkoutBtn = document.getElementById('checkout-btn');
+const toast = document.getElementById('toast');
+const navbar = document.getElementById('navbar');
+const imgModal = document.getElementById('img-modal');
+const imgModalOverlay = document.getElementById('img-modal-overlay');
+const imgModalClose = document.getElementById('img-modal-close');
+const imgModalImg = document.getElementById('img-modal-img');
+const langToggle = document.getElementById('lang-toggle');
+const langPill = document.getElementById('lang-pill');
+const langToggleTop = document.getElementById('lang-toggle-top');
+const langPillTop = document.getElementById('lang-pill-top');
+const whatsappContact = document.getElementById('whatsapp-contact');
 
 // Feedbacks UI elements
-const openFeedbacksBtn  = document.getElementById('open-feedbacks-btn');
+const openFeedbacksBtn = document.getElementById('open-feedbacks-btn');
 const closeFeedbacksBtn = document.getElementById('close-feedbacks');
-const feedbacksPanel    = document.getElementById('feedbacks-panel');
-const feedbacksOverlay  = document.getElementById('feedbacks-overlay');
+const feedbacksPanel = document.getElementById('feedbacks-panel');
+const feedbacksOverlay = document.getElementById('feedbacks-overlay');
 
 // ============================================================
 // I18N
@@ -485,8 +592,8 @@ function getCategoryLabel(product) {
 // CATEGORY FILTERS
 // ============================================================
 const CATEGORY_ORDER = [
-    "ملابس / نساء",
     "شنط",
+    "ملابس / نساء",
     "ملابس / اطفال",
     "مفروشات",
     "ميداليلات",
@@ -525,7 +632,7 @@ function renderCategoryFilters() {
     });
 
     const lang = document.documentElement.lang;
-    
+
     const allChipActive = activeCategory === 'all' ? 'active' : '';
     const allLabel = lang === 'en' ? 'All' : 'الكل';
     const allChipHtml = `
@@ -592,7 +699,7 @@ function renderProducts(products, page) {
             ${imgSection}
             <div class="product-info">
                 <p class="product-category">${cat} | Code: ${product.id}</p>
-                <p class="product-price">${lang === 'en' ? 'Price on request' : 'السعر عند الطلب'}</p>
+                <p class="product-price">${product.price ? product.price + (lang === 'en' ? ' EGP' : ' ج.م') : (lang === 'en' ? 'Price on request' : 'يحدد عند الطلب')}</p>
                 <p class="product-colors-badge">
                     <i class="fa-solid fa-palette"></i>
                     ${lang === 'en' ? 'All colors available' : 'متاح بكل الألوان'}
@@ -641,16 +748,16 @@ function renderSliderHtml(product) {
 // ============================================================
 // SLIDER CONTROLS
 // ============================================================
-window.sliderGoTo = function(sliderId, idx) {
+window.sliderGoTo = function (sliderId, idx) {
     const wrapper = document.getElementById(sliderId);
     if (!wrapper) return;
     const slides = wrapper.querySelectorAll('.slide');
-    const dots   = wrapper.querySelectorAll('.slider-dot');
+    const dots = wrapper.querySelectorAll('.slider-dot');
     slides.forEach((s, i) => s.classList.toggle('active', i === idx));
-    dots.forEach((d, i)   => d.classList.toggle('active', i === idx));
+    dots.forEach((d, i) => d.classList.toggle('active', i === idx));
 };
 
-window.sliderPrev = function(sliderId) {
+window.sliderPrev = function (sliderId) {
     const wrapper = document.getElementById(sliderId);
     if (!wrapper) return;
     const slides = Array.from(wrapper.querySelectorAll('.slide'));
@@ -658,7 +765,7 @@ window.sliderPrev = function(sliderId) {
     sliderGoTo(sliderId, (cur - 1 + slides.length) % slides.length);
 };
 
-window.sliderNext = function(sliderId) {
+window.sliderNext = function (sliderId) {
     const wrapper = document.getElementById(sliderId);
     if (!wrapper) return;
     const slides = Array.from(wrapper.querySelectorAll('.slide'));
@@ -692,7 +799,7 @@ function renderPagination(products, totalPages) {
     paginationEl.innerHTML = html;
 }
 
-window.changePage = function(page) {
+window.changePage = function (page) {
     const q = (productSearch?.value || '').trim().toLowerCase();
     const base = activeCategory === 'all'
         ? getSortedAllProducts()
@@ -734,8 +841,8 @@ function init() {
     initLanguage();
     activeCategory = 'all';
     renderCategoryFilters();
-    const base = activeCategory === 'all' 
-        ? getSortedAllProducts() 
+    const base = activeCategory === 'all'
+        ? getSortedAllProducts()
         : productsData.filter(p => p.categoryKey === activeCategory);
     renderProducts(base, 1);
     setupEventListeners();
@@ -775,12 +882,12 @@ function setupEventListeners() {
     }
 
     if (imgModalOverlay) imgModalOverlay.addEventListener('click', closeImageModal);
-    if (imgModalClose)   imgModalClose.addEventListener('click', closeImageModal);
+    if (imgModalClose) imgModalClose.addEventListener('click', closeImageModal);
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeImageModal(); });
 
-    if (cartBtn)     cartBtn.addEventListener('click', toggleCart);
+    if (cartBtn) cartBtn.addEventListener('click', toggleCart);
     if (openCartBtn) openCartBtn.addEventListener('click', toggleCart);
-    if (closeCartBtn)closeCartBtn.addEventListener('click', toggleCart);
+    if (closeCartBtn) closeCartBtn.addEventListener('click', toggleCart);
     if (cartOverlay) cartOverlay.addEventListener('click', toggleCart);
     if (checkoutBtn) checkoutBtn.addEventListener('click', handleCheckout);
 
@@ -790,7 +897,7 @@ function setupEventListeners() {
         renderCategoryFilters();
         filterProducts(activeCategory);
     };
-    if (langToggle)    langToggle.addEventListener('click', toggleLang);
+    if (langToggle) langToggle.addEventListener('click', toggleLang);
     if (langToggleTop) langToggleTop.addEventListener('click', toggleLang);
 
     if (whatsappContact) {
@@ -852,7 +959,7 @@ function toggleCart() {
     }
 }
 
-window.addToCart = function(productId) {
+window.addToCart = function (productId) {
     const product = productsData.find(p => p.id === productId);
     if (!product) return;
     const existing = cart.find(item => item.id === productId);
@@ -866,7 +973,7 @@ window.addToCart = function(productId) {
     showToast();
 };
 
-window.removeFromCart = function(productId) {
+window.removeFromCart = function (productId) {
     cart = cart.filter(item => item.id !== productId);
     saveCart();
     updateCartUI();
@@ -901,7 +1008,7 @@ function updateCartUI() {
                     onerror="this.src='Photos/Hero/Cover.png'">
                 <div class="cart-item-info">
                     <div class="cart-item-sku">${cat} • Code: ${item.id}</div>
-                    <p class="cart-item-price">${document.documentElement.lang === 'en' ? 'Price on request' : 'السعر عند الطلب'} × ${item.quantity}</p>
+                    <p class="cart-item-price">${item.price ? item.price + (document.documentElement.lang === 'en' ? ' EGP' : ' ج.م') : (document.documentElement.lang === 'en' ? 'Price on request' : 'السعر عند الطلب')} × ${item.quantity}</p>
                 </div>
                 <button class="remove-item" onclick="removeFromCart('${item.id}')">
                     <i class="fa-solid fa-trash-can"></i>
@@ -913,7 +1020,7 @@ function updateCartUI() {
 
     const total = cart.reduce((acc, item) => acc + ((item.price || 0) * item.quantity), 0);
     if (cartTotalPrice) {
-        cartTotalPrice.innerText = document.documentElement.lang === 'en' ? 'Price on request' : 'يحدد عند الطلب';
+        cartTotalPrice.innerText = total > 0 ? total + (document.documentElement.lang === 'en' ? ' EGP' : ' ج.م') : (document.documentElement.lang === 'en' ? 'Price on request' : 'يحدد عند الطلب');
     }
 }
 
