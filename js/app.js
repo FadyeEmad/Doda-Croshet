@@ -437,25 +437,36 @@ function getCategoryLabel(product) {
 // ============================================================
 // CATEGORY FILTERS
 // ============================================================
+const CATEGORY_ORDER = [
+    "ملابس / نساء",
+    "شنط",
+    "ملابس / اطفال",
+    "مفروشات",
+    "ميداليلات",
+    "ملابس / ايس كاب",
+    "ملابس / سكارفات",
+    "ملابس / جلافز"
+];
+
+function getSortedAllProducts() {
+    return [...productsData].sort((a, b) => {
+        const idxA = CATEGORY_ORDER.indexOf(a.categoryLabelAr);
+        const idxB = CATEGORY_ORDER.indexOf(b.categoryLabelAr);
+        const posA = idxA === -1 ? 999 : idxA;
+        const posB = idxB === -1 ? 999 : idxB;
+        return posA - posB;
+    });
+}
+
 function renderCategoryFilters() {
     const filters = document.getElementById('category-filters');
     if (!filters) return;
 
     const categories = new Map();
     productsData.forEach(p => categories.set(p.categoryKey, p.categoryLabelAr));
-    const targetOrder = [
-        "ملابس / نساء",
-        "شنط",
-        "ملابس / اطفال",
-        "مفروشات",
-        "ميداليلات",
-        "ملابس / ايس كاب",
-        "ملابس / سكارفات",
-        "ملابس / جلافز"
-    ];
     const ordered = Array.from(categories.entries()).sort((a, b) => {
-        const idxA = targetOrder.indexOf(a[1]);
-        const idxB = targetOrder.indexOf(b[1]);
+        const idxA = CATEGORY_ORDER.indexOf(a[1]);
+        const idxB = CATEGORY_ORDER.indexOf(b[1]);
         const posA = idxA === -1 ? 999 : idxA;
         const posB = idxB === -1 ? 999 : idxB;
         return posA - posB;
@@ -467,7 +478,19 @@ function renderCategoryFilters() {
     });
 
     const lang = document.documentElement.lang;
-    filters.innerHTML = ordered.map(([key, label]) => {
+    
+    const allChipActive = activeCategory === 'all' ? 'active' : '';
+    const allLabel = lang === 'en' ? 'All' : 'الكل';
+    const allChipHtml = `
+        <button class="cat-chip ${allChipActive}" data-filter="all" type="button">
+            <span class="cat-avatar">
+                <i class="fa-solid fa-shapes" style="font-size: 1.6rem; color: var(--primary-color);"></i>
+            </span>
+            <span class="cat-name">${allLabel}</span>
+        </button>
+    `;
+
+    filters.innerHTML = allChipHtml + ordered.map(([key, label]) => {
         const img = reprImg.get(key);
         const labelShown = translateCategoryLabel(label, lang);
         const isActive = activeCategory === key ? 'active' : '';
@@ -625,7 +648,7 @@ function renderPagination(products, totalPages) {
 window.changePage = function(page) {
     const q = (productSearch?.value || '').trim().toLowerCase();
     const base = activeCategory === 'all'
-        ? productsData
+        ? getSortedAllProducts()
         : productsData.filter(p => p.categoryKey === activeCategory);
     const filtered = q
         ? base.filter(p => (`${p.id} ${p.categoryLabelAr}`).toLowerCase().includes(q))
@@ -644,7 +667,7 @@ function filterProducts(category) {
     setTimeout(() => {
         const q = (productSearch?.value || '').trim().toLowerCase();
         const base = category === 'all'
-            ? productsData
+            ? getSortedAllProducts()
             : productsData.filter(p => p.categoryKey === category);
         const filtered = q
             ? base.filter(p => (`${p.id} ${p.categoryLabelAr}`).toLowerCase().includes(q))
@@ -662,9 +685,11 @@ function filterProducts(category) {
 // ============================================================
 function init() {
     initLanguage();
-    activeCategory = categoryKeyFromAr('ملابس', 'نساء');
+    activeCategory = 'all';
     renderCategoryFilters();
-    const base = productsData.filter(p => p.categoryKey === activeCategory);
+    const base = activeCategory === 'all' 
+        ? getSortedAllProducts() 
+        : productsData.filter(p => p.categoryKey === activeCategory);
     renderProducts(base, 1);
     setupEventListeners();
     loadCart();
