@@ -563,16 +563,13 @@ const I18N = {
 };
 
 function initLanguage() {
-    const saved = localStorage.getItem('doda_lang') || 'ar';
-    applyLanguage(saved === 'en' ? 'en' : 'ar');
+    applyLanguage('en');
 }
 
 function applyLanguage(lang) {
     const dict = I18N[lang] || I18N.ar;
     document.documentElement.lang = lang;
     document.documentElement.dir = lang === 'en' ? 'ltr' : 'rtl';
-    if (langPill) langPill.textContent = lang === 'en' ? 'AR' : 'EN';
-    if (langPillTop) langPillTop.textContent = lang === 'en' ? 'AR' : 'EN';
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (key && dict[key]) el.textContent = dict[key];
@@ -581,7 +578,6 @@ function applyLanguage(lang) {
         const key = el.getAttribute('data-i18n-placeholder');
         if (key && dict[key]) el.setAttribute('placeholder', dict[key]);
     });
-    localStorage.setItem('doda_lang', lang);
 }
 
 function getCategoryLabel(product) {
@@ -891,14 +887,7 @@ function setupEventListeners() {
     if (cartOverlay) cartOverlay.addEventListener('click', toggleCart);
     if (checkoutBtn) checkoutBtn.addEventListener('click', handleCheckout);
 
-    const toggleLang = () => {
-        const current = (localStorage.getItem('doda_lang') || 'ar');
-        applyLanguage(current === 'en' ? 'ar' : 'en');
-        renderCategoryFilters();
-        filterProducts(activeCategory);
-    };
-    if (langToggle) langToggle.addEventListener('click', toggleLang);
-    if (langToggleTop) langToggleTop.addEventListener('click', toggleLang);
+
 
     if (whatsappContact) {
         whatsappContact.addEventListener('click', () => {
